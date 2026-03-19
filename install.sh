@@ -53,9 +53,9 @@ info "  → $FIRMWARE_DIR/brcmfmac43602-pcie.txt"
 
 info "正在创建 Apple 专用固件符号链接..."
 if [[ ! -f "$FIRMWARE_DIR/brcmfmac43602-pcie.bin" ]]; then
-    if [[ -f "$FIRMWARE_DIR/brcmfmac43602-pcie.bin.xz" ]]; then
-        xz -dk "$FIRMWARE_DIR/brcmfmac43602-pcie.bin.xz"
-        info "  已解压 brcmfmac43602-pcie.bin.xz"
+    if [[ -f "$FIRMWARE_DIR/brcmfmac43602-pcie.bin.zst" ]]; then
+        unzstd -f "$FIRMWARE_DIR/brcmfmac43602-pcie.bin.zst" -o "$FIRMWARE_DIR/brcmfmac43602-pcie.bin"
+        info "  已解压 brcmfmac43602-pcie.bin.zst"
     else
         warn "  未找到 brcmfmac43602-pcie.bin，跳过符号链接"
     fi
@@ -102,7 +102,7 @@ fi
 info "正在重新加载 brcmfmac 驱动..."
 modprobe -r brcmfmac_wcc brcmfmac 2>/dev/null || true
 sleep 1
-modprobe brcmfmac roamoff=1 feature_disable=0x82000
+modprobe brcmfmac roamoff=1 feature_disable=0x2000
 
 sleep 2
 if nmcli -t -f DEVICE,STATE device status 2>/dev/null | grep -q "wifi:connected"; then
