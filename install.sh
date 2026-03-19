@@ -84,14 +84,14 @@ info "  → /etc/NetworkManager/conf.d/wifi-powersave.conf"
 
 # --- 5. 监管域设置 ------------------------------------------------------------
 
-info "正在设置监管域为 ALL..."
+info "正在设置监管域为 00..."
 if command -v iw &>/dev/null; then
-    iw reg set ALL
+    iw reg set 00
 fi
 
 REGDOM_FILE="/etc/conf.d/wireless-regdom"
 if [[ -f "$REGDOM_FILE" ]]; then
-    sed -i 's/^#\?.*WIRELESS_REGDOM.*/WIRELESS_REGDOM="ALL"/' "$REGDOM_FILE"
+    sed -i 's/^#\?.*WIRELESS_REGDOM="00"/WIRELESS_REGDOM="00"/' "$REGDOM_FILE"
     info "  已更新 $REGDOM_FILE"
 else
     warn "  未找到 $REGDOM_FILE — 如需要请手动设置你的国家代码"
